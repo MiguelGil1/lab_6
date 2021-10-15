@@ -1,8 +1,6 @@
 #include "planeta.h"
 #define SCALE 0.01
 planeta::planeta(double posX, double posY, double masa, double VelX, double VelY,double X_1, double Y_1, double M){
-    X_0  = posX;
-    Y_0  = posY;
     X    = posX;
     Y    = posY;
     m    = masa;
@@ -25,6 +23,7 @@ void planeta::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
 void planeta::calculatePosition(double dt){
     double theta =  0;
     double r2    =  0;
+
     /*if((X -X1) == 0){
         //theta = atan((Y1 - Y)/(0.0000000000001));
         theta = atan2((Y1 - Y),0.0000000000001);
@@ -32,9 +31,11 @@ void planeta::calculatePosition(double dt){
         //theta = atan((Y1 - Y)/(X1 - X));
         theta = atan2((Y1 - Y),(X1 - X));
     }*/
+
     r2 = ((pow(X1 - X, 2)) + (pow(Y1 - Y, 2)));
     theta = atan2((Y1 - Y),(X1 - X));
 
+    //Calculamos aceleracion en ambos ejes
     Ax = (G * m2 * cos(theta))/(r2);
     Ay = (G * m2 * sin(theta))/(r2);
 
@@ -45,9 +46,6 @@ void planeta::calculatePosition(double dt){
     //Calculamos posicion en ambos ejes
     X = X + (VX*dt) + ((Ax*dt*dt)/2);
     Y = Y + (VY*dt) + ((Ay*dt*dt)/2);
-
-    //X -= X_0;
-    //Y -= Y_0;
 }
 
 float planeta::getX() const{

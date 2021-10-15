@@ -20,8 +20,6 @@ public:
     void setY(float value);
 
 private:
-    double X_0;
-    double Y_0;
     double X;                      //Posicion en X del planeta
     double Y;                      //Posicion en Y del planeta
     double m;                      //Masa del planeta
@@ -32,7 +30,7 @@ private:
     double m2;                     //Masa del cuerpo masivo
     double X1;                     //Posicion en X del cuerpo masivo
     double Y1;                     //Posicion en Y del cuerpo masivo
-    double G = 0.0000667384; //Constante de gravitacion Universal
+    double G = 0.0000667384;       //Constante de gravitacion Universal
     //float G = 0.001; //Constante de gravitacion Universal
 };
 

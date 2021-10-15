@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#define PATH_SOLAR_SYSTEM "../lab_6/systems/sistema1.txt"
+#define PATH_SOLAR_SYSTEM "../lab_6/systems/sistema2.txt"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow){
     ui->setupUi(this);
@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     readSystem();
     ui->Scroll->setRange(-100,100);
     ui->Scroll->setSliderPosition(0);
-    //ui->graphicsView->setSceneRect(-400,-300,800,600);
+    ui->Radio_Normal->setChecked(true);
     ui->graphicsView->setSceneRect(-(ui->graphicsView->width()/2),-(ui->graphicsView->height()/2),ui->graphicsView->width(),ui->graphicsView->height());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
@@ -84,19 +84,17 @@ void MainWindow::readSystem(){
 }
 
 void MainWindow::calculatePosition(){
-    static int  cont = 0;
-    if(ui->Radio_Fast->isChecked()){
-        cout << "Rapido " << cont++ << endl;
-    }
     for(auto planeta = planets.begin(); planeta != planets.end(); planeta++){
-        //(*planeta)->calculatePosition(8640.0f);
-        (*planeta)->calculatePosition(1.0f);
+        if(ui->Radio_Fast->isChecked()){
+            (*planeta)->calculatePosition(2.0f);
+        }else if (ui->Radio_Normal->isChecked()){
+            (*planeta)->calculatePosition(1.0f);
+        }else if (ui->Radio_Slow->isChecked()){
+            (*planeta)->calculatePosition(0.5f);
+        }
         double X = (*planeta)->getX();
         double Y = (*planeta)->getY();
         (*planeta)->setPos(X,-Y);
-        if(planeta == planets.begin()){
-             cout << *planeta << " = { " << X*100 << " , " << Y*100 << " }" << endl;
-        }
     }
    // ui->graphicsView->setSceneRect(-400,-300,800,600);
     ui->graphicsView->setSceneRect(-(ui->graphicsView->width()/2),-(ui->graphicsView->height()/2),ui->graphicsView->width(),ui->graphicsView->height());
