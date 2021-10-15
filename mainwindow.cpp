@@ -8,7 +8,10 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
 
     scene = new QGraphicsScene(this);
     readSystem();
-
+    ui->Scroll->setRange(-100,100);
+    ui->Scroll->setSliderPosition(0);
+    //ui->graphicsView->setSceneRect(-400,-300,800,600);
+    ui->graphicsView->setSceneRect(-(ui->graphicsView->width()/2),-(ui->graphicsView->height()/2),ui->graphicsView->width(),ui->graphicsView->height());
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
 }
@@ -86,16 +89,18 @@ void MainWindow::calculatePosition(){
         cout << "Rapido " << cont++ << endl;
     }
     for(auto planeta = planets.begin(); planeta != planets.end(); planeta++){
-        //(*planeta)->calculatePosition(86400.0f);
+        //(*planeta)->calculatePosition(8640.0f);
         (*planeta)->calculatePosition(1.0f);
         double X = (*planeta)->getX();
         double Y = (*planeta)->getY();
-        //(*planeta)->setPos(X*SCALE,-Y*SCALE);
         (*planeta)->setPos(X,-Y);
         if(planeta == planets.begin()){
              cout << *planeta << " = { " << X*100 << " , " << Y*100 << " }" << endl;
         }
     }
+   // ui->graphicsView->setSceneRect(-400,-300,800,600);
+    ui->graphicsView->setSceneRect(-(ui->graphicsView->width()/2),-(ui->graphicsView->height()/2),ui->graphicsView->width(),ui->graphicsView->height());
+
 }
 
 
@@ -104,9 +109,15 @@ void MainWindow::on_Start_clicked(){
     cout << "Comenzo simulacion" << endl;
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(calculatePosition()));
-    timer->start(1000);
+    timer->start(10);
 }
 
-void MainWindow::on_Away_clicked(){
-    ui->graphicsView->scale(0.5,0.5);
+void MainWindow::on_Scroll_valueChanged(int value){
+    static int before =  0;
+    if(before > value){
+        ui->graphicsView->scale(0.5,0.5);
+    }else if(before < value){
+        ui->graphicsView->scale(2,2);
+    }
+    before = value;
 }

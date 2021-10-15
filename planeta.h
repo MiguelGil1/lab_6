@@ -32,8 +32,8 @@ private:
     double m2;                     //Masa del cuerpo masivo
     double X1;                     //Posicion en X del cuerpo masivo
     double Y1;                     //Posicion en Y del cuerpo masivo
-    double G = 0.0000000000667384; //Constante de gravitacion Universal
-    //double G = 1; //Constante de gravitacion Universal
+    double G = 0.0000667384; //Constante de gravitacion Universal
+    //float G = 0.001; //Constante de gravitacion Universal
 };
 
 #endif // PLANETA_H
