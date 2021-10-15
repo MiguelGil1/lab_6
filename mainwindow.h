@@ -29,7 +29,7 @@ public slots:
 private slots:
     void on_Start_clicked();
 
-    void on_Away_clicked();
+    void on_Scroll_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
