@@ -24,6 +24,12 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void readSystem();
+public slots:
+    void calculatePosition();
+private slots:
+    void on_Start_clicked();
+
+    void on_Away_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -34,5 +40,7 @@ private:
     cuerpoGrav *cuerpoGravitacional;
     planeta *planet;
     vector<planeta *> planets;
+
+    float SCALE = 0.01;
 };
 #endif // MAINWINDOW_H
