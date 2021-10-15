@@ -1,12 +1,12 @@
 #include "cuerpograv.h"
-
+#define SCALE 0.01
 cuerpoGrav::cuerpoGrav(double posX, double posY, double masa){
     X = posX;
     Y = posY;
     m = masa;
 }
 QRectF cuerpoGrav::boundingRect() const{
-    return QRectF(X,Y,10,10);
+    return QRectF(-X-10,-Y-10,20,20);
 }
 
 void cuerpoGrav::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){

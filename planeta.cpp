@@ -1,19 +1,20 @@
 #include "planeta.h"
-
+#define SCALE 0.01
 planeta::planeta(double posX, double posY, double masa, double VelX, double VelY,double X_1, double Y_1, double M){
     X_0  = posX;
     Y_0  = posY;
     X    = posX;
     Y    = posY;
     m    = masa;
-    V0_X = VelX;
-    V0_Y = VelY;
+    VX   = VelX;
+    VY   = VelY;
     m2   = M;
     X1   = X_1;
     Y1   = Y_1;
 }
 QRectF planeta::boundingRect() const{
-    return QRectF(X,Y,10,10);
+    return QRectF(X-5,-Y-5,10,10);
+    //return QRectF((-X*SCALE)-5,(-Y*SCALE)-5,10,10);
 }
 
 void planeta::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *){
@@ -21,20 +22,30 @@ void planeta::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget
     painter->drawEllipse(boundingRect());
 }
 
-void planeta::calculatePosition(){
+void planeta::calculatePosition(double dt){
     double theta =  0;
-    if((X -X1) == 0){
-        //theta = qAtan((Y - Y1)/(0.0000000000001));
-        theta = qAtan2((Y - Y1),0.0000000000001);
+    /*if((X -X1) == 0){
+        //theta = atan((Y1 - Y)/(0.0000000000001));
+        theta = atan2((Y1 - Y),0.0000000000001);
     }else{
-        //theta = qAtan((Y - Y1)/(X - X1));
-        theta = qAtan2((Y - Y1),(X - X1));
-    }
+        //theta = atan((Y1 - Y)/(X1 - X));
+        theta = atan2((Y1 - Y),(X1 - X));
+    }*/
+    theta = atan2((Y - Y1),(X - X1));
+    //theta = atan2((Y - Y1),(X - X1));
 
-    double r2 = ((qPow(X - X1, 2)) + (qPow(Y - Y1, 2)));
+    double r2 = ((pow(X1 - X, 2)) + (pow(Y1 - Y, 2)));
 
-    Ax = (((G * m2)/(r2)) * qCos(theta));
-    Ay = (((G * m2)/(r2)) * qSin(theta));
+    Ax = (G * m * cos(theta))/(r2);
+    Ay = (G * m * sin(theta))/(r2);
+
+    //Calculamos velocidades en ambos ejes
+    VX = VX + Ax * dt;
+    VY = VY + Ay * dt;
+
+    //Calculamos posicion en ambos ejes
+    X = X + (VX*dt) + ((Ax*dt*dt)/2);
+    Y = Y + (VY*dt) + ((Ay*dt*dt)/2);
 }
 
 float planeta::getX() const{
